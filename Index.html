@@ -36,7 +36,7 @@
                             </h2>
                         </div>
                         <label class="search__bar">
-                            <input type="search" class="search__bar--input" data-search placeholder="Search By Name or keyword" onchange="inputSomethin()"/>
+                            <input type="search" class="search__bar--input" data-search placeholder="Search By Name or keyword"/>
                         </label>
                     </div>
                 </div>
@@ -46,13 +46,14 @@
             <section id="movies">
                 <div class="movies__container">
                     <div class="row">
-                        <div class="movie__list">
-                            <div class="movie__list--item">
-                                <img src="./Assets/download%20(1).jpg" alt="Movie Poster" class="movie__poster">
-                                <h3 class="movie__title">
-                                    Fast And The Furious 9
-                                </h3>
-                            </div>
+                        <div class="movie__list" data-movie-card-container>
+                            <template data-movie-template>
+                                <div class="movie__list--item">
+                                    <img src="./Assets/download (1).jpg" alt="Movie Poster" class="movie__poster" data-poster>
+                                    <h3 class="movie__title" data-title>
+                                    </h3>
+                                </div>
+                            </template>
                         </div>
                     </div>
 

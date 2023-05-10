@@ -1,43 +1,27 @@
-const moviesDataEl = document.querySelector(".movie__list");
-const searchInput = document.querySelector("[data-search]");
+const movieCardTemplate = document.querySelector("[data-movie-template]")
+const movieCardContainer = document.querySelector("[data-movie-card-container]")
+const searchInput = document.querySelector("[data-search]")
 
+let users = []
 
-async function inputSomethin() {
+searchInput.addEventListener("input", (e) => {
+  const value = e.target.value.toLowerCase()
+  users.forEach(user => {
+    const isVisable = user.title.toLowerCase().includes(value)
+    user.element.classList.toggle("hide", !isVisable)
+  })
+})
 
-const movies = await fetch("https://www.omdbapi.com/?apikey=a0a957d2&s=fast");
-const moviesData = await movies.json();
-
-    searchInput.addEventListener("input", (e) => {
-        const value = e.target.value;
-        moviesData.Search.forEach(movie => {
-            const isVisable = movie.Title.includes(value)
-            if (!isVisable) {
-                document.body.classList += " .hide"
-            }
-            console.log(isVisable)
-        });
-    });
-};
-
-let users = [];
-
-async function main() {
-  const movies = await fetch("https://www.omdbapi.com/?apikey=a0a957d2&s=fast");
-  const moviesData = await movies.json();
-  moviesDataEl.innerHTML = moviesData.Search.map((movie) =>
-    userHTML(movie)
-  ).join("");
-  return moviesData.Search;
-}
-
-main();
-
-function userHTML(movie) {
-  return `<div class="movie__list--item">
-                                <img src="${movie.Poster}" alt="Movie Poster" class="movie__poster">
-                                <h3 class="movie__title">
-                                    ${movie.Title}
-                                </h3>
-                            </div>
-    `;
-}
+fetch("https://www.omdbapi.com/?apikey=a0a957d2&s=fast")
+  .then(res => res.json())
+    .then(movieData => {
+      users = movieData.Search.map(data => {
+        const movie = movieCardTemplate.content.cloneNode(true).children[0]
+        const title = movie.querySelector("[data-title]")
+        const poster = movie.getElementsByClassName("movie__poster")
+        title.textContent = data.Title
+        poster[0].src = data.Poster
+        movieCardContainer.append(movie)
+        return {title: data.Title, element: movie}
+      })
+    })  
